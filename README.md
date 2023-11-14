@@ -1,5 +1,8 @@
 # Spellbook Docker Compose
 
+The repository contains the Docker Compose files for running the Spellbook AI Assistant stack. The function calling features
+require ExLlama and a Nvidia Ampere or better GPU for real-time results.
+
 ## Stack Architecture
 
 ![Software stack diagram](https://github.com/noco-ai/spellbook-docker/blob/master/stack.png)
@@ -70,5 +73,5 @@ sudo docker run --rm --runtime=nvidia --gpus all ubuntu nvidia-smi
 
 ```bash
 docker compose build
-docker compose up -d
+docker compose up
 ```
