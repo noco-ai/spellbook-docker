@@ -2,6 +2,7 @@
 
 The repository contains the Docker Compose files for running the Spellbook AI Assistant stack. The function calling features
 require ExLlama and a Nvidia Ampere or better GPU for real-time results.
+
 ![UI demo](https://github.com/noco-ai/spellbook-docker/blob/master/ui-demo.gif)
 
 ## Stack Architecture
