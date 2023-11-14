@@ -1,0 +1,112 @@
+version: "3.8"
+
+services:
+  vault:
+    build:
+      dockerfile: vault/Dockerfile
+    container_name: spellbook_vault
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_ADDR: http://0.0.0.0:8200
+    volumes:
+      - vault_share:/vault_share
+    cap_add:
+      - IPC_LOCK
+    networks:
+      spellbook-net:
+        ipv4_address: 10.23.82.2
+
+  mariadb:
+    build:
+      dockerfile: mariadb/Dockerfile
+    container_name: spellbook_mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: "spellBOOK.temp.321"
+      MARIADB_DATABASE: "spellbook"
+    volumes:
+      - vault_share:/vault_share
+    ports:
+      - "3306:3306"
+    depends_on:
+      - vault
+    networks:
+      spellbook-net:
+        ipv4_address: 10.23.82.3
+
+  spellbook_ui:
+    build:
+      dockerfile: spellbook/Dockerfile
+    container_name: spellbook_ui
+    volumes:
+      - vault_share:/vault_share
+    ports:
+      - "4200:4200"
+    depends_on:
+      - vault
+      - mariadb
+      - rabbitmq
+    networks:
+      spellbook-net:
+        ipv4_address: 10.23.82.6
+
+  arcane_bridge:
+    build:
+      dockerfile: arcane-bridge/Dockerfile
+    container_name: spellbook_arcane_bridge
+    volumes:
+      - vault_share:/vault_share
+    ports:
+      - "3000:3000"
+    depends_on:
+      - vault
+      - mariadb
+      - rabbitmq
+    networks:
+      spellbook-net:
+        ipv4_address: 10.23.82.7
+
+  golem:
+    build:
+      dockerfile: elemental-golem/Dockerfile
+    container_name: spellbook_golem
+    volumes:
+      - vault_share:/vault_share
+      - models_share:/server/data
+    depends_on:
+      - vault
+      - rabbitmq
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    networks:
+      spellbook-net:
+        ipv4_address: 10.23.82.5
+
+  rabbitmq:
+    build:
+      dockerfile: rabbitmq/Dockerfile
+    container_name: spellbook_rabbitmq
+    depends_on:
+      - vault
+    ports:
+      - "15672:15672"
+    volumes:
+      - vault_share:/vault_share
+    networks:
+      spellbook-net:
+        ipv4_address: 10.23.82.4
+
+volumes:
+  vault_share:
+  models_share:
+
+networks:
+  spellbook-net:
+    ipam:
+      config:
+        - subnet: 10.23.82.0/16
