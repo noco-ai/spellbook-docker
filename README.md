@@ -2,7 +2,7 @@
 
 ## Stack Architecture
 
-![Software stack diagram](https://github.com/noco-ai/spellbook-docker/stack.png)
+![Software stack diagram](https://github.com/noco-ai/spellbook-docker/blob/master/stack.png)
 
 ## Ubuntu 22 Install Instructions
 
