@@ -17,8 +17,6 @@ RUN echo "Installing v0.1.0 of Elemental Golem"
 RUN git clone https://github.com/noco-ai/elemental-golem.git /server
 RUN pip install -r /server/requirements.txt
 RUN mkdir -p /server/data/loras/
-COPY elemental-golem/noco-ai.tar.gz /server/data/loras
-RUN cd /server/data/loras && tar -xvf noco-ai.tar.gz
 WORKDIR /server
 CMD ["python3", "server.py", "--server-id", "golem1", "--vault-host", 
     "http://10.23.82.2:8200", "--vault-token-file", "/vault_share/read-token", "--vault-root", "spellbook", "--shared-models", "true"]
