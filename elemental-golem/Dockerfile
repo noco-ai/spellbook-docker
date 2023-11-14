@@ -18,7 +18,6 @@ RUN git clone https://github.com/noco-ai/elemental-golem.git /server
 RUN pip install -r /server/requirements.txt
 RUN mkdir -p /server/data/loras/
 WORKDIR /server
-CMD ["python3", "server.py", "--server-id", "golem1", "--vault-host", 
-    "http://10.23.82.2:8200", "--vault-token-file", "/vault_share/read-token", "--vault-root", "spellbook", "--shared-models", "true"]
+CMD ["python3", "server.py", "--server-id", "golem1", "--vault-host", "http://10.23.82.2:8200", "--vault-token-file", "/vault_share/read-token", "--vault-root", "spellbook", "--shared-models", "true"]
 # CMD tail -f /dev/null
 # python3 server.py --server-id golem1 --vault-host http://10.23.82.2:8200 --vault-token-file /vault_share/read-token --vault-root spellbook --shared-models true
