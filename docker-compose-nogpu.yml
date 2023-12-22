@@ -1,5 +1,5 @@
 version: "3.8"
-      
+
 services:
   vault:
     build:
@@ -68,25 +68,18 @@ services:
 
   golem:
     build:
-      dockerfile: elemental-golem/Dockerfile      
-    container_name: spellbook_golem    
-    volumes:
-      - vault_share:/vault_share
-      - models_share:/server/data
+      dockerfile: elemental-golem/Dockerfile-nogpu      
+    container_name: spellbook_golem
     environment:
       - GOLEM_ID=${GOLEM_ID}
       - GOLEM_AMQP_HOST=${GOLEM_AMQP_HOST}
       - GOLEM_VAULT_HOST=${GOLEM_VAULT_HOST}
+    volumes:
+      - vault_share:/vault_share
+      - models_share:/server/data
     depends_on:
       - vault
-      - rabbitmq
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
+      - rabbitmq    
     networks:
       spellbook-net:
         ipv4_address: 10.23.82.5

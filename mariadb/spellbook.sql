@@ -43,15 +43,20 @@ DROP TABLE IF EXISTS `chat_conversation`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `chat_conversation` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
   `is_private` tinyint(1) NOT NULL,
   `is_shared` tinyint(1) NOT NULL,
   `system_message` text COLLATE utf8mb4_unicode_ci,
   `use_model` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `topic` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `seed` int(10) DEFAULT '-1',
+  `seed` bigint(10) DEFAULT '-1',
   `temperature` float DEFAULT '1',
-  `top_k` float DEFAULT '0.9',
+  `top_k` int(10) DEFAULT 50,
   `top_p` float DEFAULT '0.9',
+  `min_p` float DEFAULT '0.05',
+  `mirostat` int(10) DEFAULT 0,
+  `mirostat_tau` float DEFAULT '5.0',
+  `mirostat_eta` float DEFAULT '0.1',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `locked` int(10) unsigned DEFAULT '0',
@@ -65,6 +70,7 @@ DROP TABLE IF EXISTS `chat_conversation_message`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `chat_conversation_message` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
   `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `conversation_id` int(10) unsigned NOT NULL,
