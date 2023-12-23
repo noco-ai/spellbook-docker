@@ -41,7 +41,7 @@ sudo newgrp docker
 sudo shutdown -r now
 ```
 
-### Build and Start Containers (NO GPU)
+### Build and Start Containers (No GPU)
 
 The docker-compose-nogpu.yml is useful for running the UI and middleware in a situation where you want another backend handling you GPUs and LLMs. For example
 if you are also using Text Generation UI and do not want to mess with it settings this compose file can be used to just run the UI, allowing you then to then connect it to the endpoint provided by Oobabooga or any other OpenAI compatible backend.
@@ -51,7 +51,7 @@ docker compose -f docker-compose-nogpu.yml build
 docker compose -f docker-compose-nogpu.yml up
 ```
 
-### Build and Start Additional Workers (NO GPU)
+### Build and Start Additional Workers (No GPU)
 
 If you have more than one server you can run additional Elemental Golem workers to give the UI access to more resources. A few steps need to be taken on the
 primary Spellbook server that is running the UI, middleware and other resources like Vault.
@@ -70,8 +70,10 @@ sudo ufw allow 8200
 ```
 
 - Run these command on the server running the worker. The GOLEM_ID needs to be unique for every server and golem1 is used by the primary.
+- The first time you run the container it will timeout, git CTL + C or wait then copy the Vault token.
 ```bash
 docker compose -f docker-compose-worker-nogpu.yml build
+GOLEM_VAULT_HOST=10.10.10.X GOLEM_AMQP_HOST=10.10.10.X GOLEM_ID=golem2 docker compose -f docker-compose-worker-nogpu.yml up
 sudo su
 echo "TOKEN FROM PRIMARY SERVER" > /var/lib/docker/volumes/spellbook-docker_vault_share/_data/read-token
 exit
@@ -117,4 +119,12 @@ sudo docker run --rm --runtime=nvidia --gpus all ubuntu nvidia-smi
 ```bash
 docker compose build
 docker compose up
+```
+
+### Build and Start Additional Workers (Nvidia GPU)
+
+Follow the directions under the *Build and Start Additional Workers (No GPU)* section substituting the build and up lines for the ones found below.
+```bash
+docker compose -f docker-compose-worker.yml build
+GOLEM_VAULT_HOST=10.10.10.X GOLEM_AMQP_HOST=10.10.10.X GOLEM_ID=golem2 docker compose -f docker-compose-worker.yml up
 ```
