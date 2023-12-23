@@ -13,9 +13,6 @@ services:
       - GOLEM_ID=${GOLEM_ID}
       - GOLEM_AMQP_HOST=${GOLEM_AMQP_HOST}
       - GOLEM_VAULT_HOST=${GOLEM_VAULT_HOST}
-    depends_on:
-      - vault
-      - rabbitmq
     deploy:
       resources:
         reservations:
