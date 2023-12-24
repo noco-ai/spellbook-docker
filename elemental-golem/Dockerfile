@@ -13,8 +13,8 @@ ENV LLAMA_CUBLAS=1
 RUN groupadd -r golem && useradd -r -m -g golem golem && mkdir /server && chown -R golem:golem /server
 RUN python3 -m pip install --upgrade pip pytest cmake scikit-build setuptools fastapi uvicorn sse-starlette pydantic-settings starlette-context
 RUN CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python
-RUN echo "Installing v0.2.0 of Elemental Golem"
-RUN git clone --depth 1 --branch v0.2.0 https://github.com/noco-ai/elemental-golem.git /server
+RUN echo "Installing v0.2.1 of Elemental Golem"
+RUN git clone --depth 1 --branch v0.2.1 https://github.com/noco-ai/elemental-golem.git /server
 RUN pip install -r /server/requirements.txt
 RUN mkdir -p /server/data/loras/
 WORKDIR /server
