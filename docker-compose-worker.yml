@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  
+  golem:
+    build:
+      dockerfile: elemental-golem/Dockerfile      
+    container_name: spellbook_golem    
+    volumes:
+      - vault_share:/vault_share
+      - models_share:/server/data
+    environment:
+      - GOLEM_ID=${GOLEM_ID}
+      - GOLEM_AMQP_HOST=${GOLEM_AMQP_HOST}
+      - GOLEM_VAULT_HOST=${GOLEM_VAULT_HOST}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    networks:
+      spellbook-net:
+        ipv4_address: 10.23.82.5
+
+volumes:
+  vault_share:
+  models_share:
+
+networks:
+  spellbook-net:
+    ipam:
+      config:
+        - subnet: 10.23.82.0/16

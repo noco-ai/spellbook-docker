@@ -15,14 +15,13 @@ RUN mkdir -p /etc/apt/keyrings && \
 RUN groupadd -r arcane && useradd -r -m -g arcane arcane && \
     mkdir -p /app && chown arcane:arcane /app
 WORKDIR /app
-RUN echo "Installing 0.1.0 of Arcane Bridge"
-RUN git clone https://github.com/noco-ai/arcane-bridge.git /app
+RUN echo "Installing 0.2.0 of Arcane Bridge"
+RUN git clone --depth 1 --branch v0.2.0 https://github.com/noco-ai/arcane-bridge.git /app
 RUN chown -R arcane:arcane /app
 ENV NPM_CONFIG_PREFIX=/app/.npm-global
 ENV PATH=$PATH:/app/.npm-global/bin
 USER arcane
 RUN npm install && npm run compile
-
-CMD ["npm", "run", "start", "--", "-vh", "http://10.23.82.2:8200", "-vt", "/vault_share/write-token"]
+CMD ["npm", "run", "start", "--", "-vh", "http://10.23.82.2:8200", "-vt", "/vault_share/write-token", "-cs"]
 # CMD tail -f /dev/null
 # npm run start -- -vh http://10.23.82.2:8200 -vt /vault_share/write-token
