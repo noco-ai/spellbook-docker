@@ -9,8 +9,8 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesourc
 RUN apt-get update
 RUN apt-get install nodejs -y
 RUN npm install -g @angular/cli@latest
-RUN echo "Install v0.2.0 of Spellbook UI"
-RUN git clone --depth 1 --branch v0.2.0 https://github.com/noco-ai/spellbook-ui.git /app
+RUN echo "Install v0.2.1 of Spellbook UI"
+RUN git clone --depth 1 --branch v0.2.1 https://github.com/noco-ai/spellbook-ui.git /app
 WORKDIR /app
 RUN npm install
 ADD spellbook/environment.ts /app/environments/environment.ts
