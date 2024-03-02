@@ -128,3 +128,21 @@ Follow the directions under the *Build and Start Additional Workers (No GPU)* se
 docker compose -f docker-compose-worker.yml build
 GOLEM_VAULT_HOST=10.10.10.X GOLEM_AMQP_HOST=10.10.10.X GOLEM_ID=golem2 docker compose -f docker-compose-worker.yml up
 ```
+
+### Port Forwarding
+
+This repository assumes you are running the docker containers on your local system if this is not the case make sure ports **3000** and **4200** are forwarded to the host running the docker containers.
+
+### Fresh Install
+
+For a fresh install of the stack run the following commands, this will remove all downloaded models and all conversation and configuration records.
+
+```bash
+cd spellbook-docker
+docker compose down
+docker volume rm spellbook-docker_models_share
+docker volume rm spellbook-docker_vault_share
+git pull origin master
+docker compose build
+docker compose up
+```
