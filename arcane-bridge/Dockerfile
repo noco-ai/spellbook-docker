@@ -15,8 +15,8 @@ RUN mkdir -p /etc/apt/keyrings && \
 RUN groupadd -r arcane && useradd -r -m -g arcane arcane && \
     mkdir -p /app && chown arcane:arcane /app
 WORKDIR /app
-RUN echo "Installing 0.2.0 of Arcane Bridge"
-RUN git clone --depth 1 --branch v0.2.0 https://github.com/noco-ai/arcane-bridge.git /app
+RUN echo "Installing 0.3.0 of Arcane Bridge"
+RUN git clone --depth 1 --branch v0.3.0 https://github.com/noco-ai/arcane-bridge.git /app
 RUN chown -R arcane:arcane /app
 ENV NPM_CONFIG_PREFIX=/app/.npm-global
 ENV PATH=$PATH:/app/.npm-global/bin
